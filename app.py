@@ -188,8 +188,14 @@ opt_name = st.sidebar.selectbox(
 )
 
 # Hyperparameters
-lr = st.sidebar.number_input("Learning rate", value=0.1, step=0.01)
-batch_size = st.sidebar.number_input("Kích thước batch (cho mini-batch/SGD)", value=16, step=1, min_value=1)
+# lr = st.sidebar.number_input("Learning rate", value=0.1, step=0.01)
+# batch_size = st.sidebar.number_input("Kích thước batch (cho mini-batch/SGD)", value=16, step=1, min_value=1)
+if opt_name == "mini-batch GD":
+    lr = st.sidebar.number_input("Learning rate", value=0.1, step=0.01)
+    batch_size = st.sidebar.number_input("Kích thước batch (mini-batch)", value=16, step=1, min_value=1)
+else:
+    lr = None
+    batch_size = None
 
 # State initialization
 if "weights" not in st.session_state or st.sidebar.button("Khởi tạo lại trọng số"):
