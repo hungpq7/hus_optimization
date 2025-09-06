@@ -127,7 +127,7 @@ def optimizer_adam(df, w, lr, objective_fn, adam_state, beta1=0.9, beta2=0.999, 
 # UI
 # ---------------------------
 
-st.title("Demo: Tối ưu hóa danh mục (Modern Portfolio Theory)")
+st.title("Tối ưu danh mục (Modern Portfolio Theory)")
 st.write("Hệ thống demo tối ưu hóa danh mục với các thuật toán GD, mini-batch GD, SGD, Newton, Nesterov, Adam. Chọn hàm mục tiêu: Markowitz hoặc Sharpe. Không ràng buộc trọng số (cho phép bán khống/đòn bẩy).")
 
 # Example synthetic returns if none provided
@@ -160,9 +160,19 @@ k = len(short_list)
 df = df_all[short_list]
 
 # Objective selection
+# objective_name = st.sidebar.selectbox("Hàm mục tiêu", ["Markowitz (mean-variance)", "Sharpe ratio"])
+# lam = st.sidebar.number_input("Lambda (chỉ dùng cho Markowitz)", value=1.0, step=0.1)
+# r_f = st.sidebar.number_input("Risk-free rate (for Sharpe ratio)", value=0.0, step=0.001)
+
+# Objective selection
 objective_name = st.sidebar.selectbox("Hàm mục tiêu", ["Markowitz (mean-variance)", "Sharpe ratio"])
-lam = st.sidebar.number_input("Lambda (chỉ dùng cho Markowitz)", value=1.0, step=0.1)
-r_f = st.sidebar.number_input("Risk-free rate (for Sharpe ratio)", value=0.0, step=0.001)
+if objective_name.startswith("Markowitz"):
+    lam = st.sidebar.number_input("Lambda (Markowitz)", value=1.0, step=0.1)
+    r_f = 0.0
+else:
+    r_f = st.sidebar.number_input("Risk-free rate (Sharpe)", value=0.0, step=0.001)
+    lam = 1.0
+
 
 # Optimizer selection
 opt_name = st.sidebar.selectbox(
